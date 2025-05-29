@@ -6,20 +6,13 @@ import logo from "../assets/Logo.png";
 import FeedbackModal from "./FeedbackModal";
 
 const ChatInterface = (props) => {
-	const [showThumbs, setShowThumbs] = useState(false);
 	const [showRating, setShowRating] = useState(false);
 	const [rating, setRating] = useState(0);
 	const [open, setOpen] = useState(false);
 	const [hoveredIndex, setHoveredIndex] = useState(null);
 
-	const handleMouseEnter = (index) => {
-		setHoveredIndex(index);
-	};
-
-	const handleMouseLeave = () => {
-		setHoveredIndex(null);
-	};
-
+	const handleMouseEnter = (index) => setHoveredIndex(index);
+	const handleMouseLeave = () => setHoveredIndex(null);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
@@ -102,18 +95,17 @@ const ChatInterface = (props) => {
 				))}
 			</div>
 
-			<div className="chat-input-section">
+			<form className="chat-input-section" onSubmit={(e) => { e.preventDefault(); handleSend(); }}>
 				<input
 					type="text"
 					className="chat-input"
 					value={props.input}
 					onChange={(e) => props.updateInput(e.target.value)}
-					onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-					placeholder="Message Bot AI…"
+					placeholder="Message Bot AI..."
 				/>
-				<button className="chat-btn" type="submit" onClick={handleSend}>Ask</button>
+				<button className="chat-btn" type="submit">Ask</button>
 				<button className="chat-btn" type="button" onClick={props.handleSaveClick}>Save</button>
-			</div>
+			</form>
 		</div>
 	);
 };

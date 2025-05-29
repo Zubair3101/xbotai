@@ -1,13 +1,11 @@
 import React from 'react';
 import './Sidebar.css';
-import NewChat from './NewChat';
-import StyledButton from './StyledButton';
 
-export default function Sidebar(props) {
+export default function Sidebar() {
 	return (
 		<div className="sidebar-container">
-			<NewChat handleClickNewChat={props.handleClickNewChat} />
-			<StyledButton text="Past Conversations" handleClickPastConversations={props.handleClickPastConversations} />
+			<a href="/" className="styled-button">New Chat</a>
+			<a href="/history" className="styled-button">Past Conversations</a>
 		</div>
 	);
 }

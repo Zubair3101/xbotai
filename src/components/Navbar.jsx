@@ -3,10 +3,10 @@ import './Navbar.css';
 
 export default function Navbar() {
 	return (
-		<div className="navbar">
+		<header className="navbar">
 			<div className="toolbar">
 				<h1 className="navbar-title">Bot AI</h1>
 			</div>
-		</div>
+		</header>
 	);
 }

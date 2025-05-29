@@ -5,20 +5,7 @@ import Sidebar from "./components/Sidebar";
 import Conversations from "./components/Conversations";
 import Navbar from "./components/Navbar";
 import data from "./sampleData.json";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-
-function MainChat({ messages, updateMessages, handleSaveClick, input, updateInput, response }) {
-	return (
-		<ChatInterface
-			messages={messages}
-			updateMessages={updateMessages}
-			handleSaveClick={handleSaveClick}
-			input={input}
-			updateInput={updateInput}
-			response={response}
-		/>
-	);
-}
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
 	const [aiData, setAiData] = useState([]);
@@ -27,16 +14,10 @@ function App() {
 	const [input, setInput] = useState('');
 	const [response, setResponse] = useState('');
 
-	const updateMessages = (newMessage) => {
-		setMessages(prevMessages => [...prevMessages, newMessage]);
-	};
-
-	const updateInput = (value) => {
-		setInput(value);
-	};
-
 	useEffect(() => {
 		setAiData(data);
+		const saved = localStorage.getItem("conversations");
+		if (saved) setConversations(JSON.parse(saved));
 	}, []);
 
 	useEffect(() => {
@@ -48,23 +29,26 @@ function App() {
 		}
 	}, [input]);
 
+	const updateMessages = (newMessage) => setMessages(prev => [...prev, newMessage]);
+
 	const updateConversations = () => {
-		setConversations(prevConv => [...prevConv, messages]);
+		const updated = [...conversations, messages];
+		setConversations(updated);
+		localStorage.setItem("conversations", JSON.stringify(updated));
 	};
 
 	const handleSaveClick = () => {
 		updateConversations();
 	};
 
+	const updateInput = (value) => setInput(value);
+
 	return (
 		<Router>
 			<div className="App">
 				<div className="grid-container">
 					<div className="sidebar-section">
-						<Sidebar
-							handleClickNewChat={() => window.location.href = '/'}
-							handleClickPastConversations={() => window.location.href = '/history'}
-						/>
+						<Sidebar />
 					</div>
 					<div className="main-section">
 						<Navbar />
@@ -72,7 +56,7 @@ function App() {
 							<Route
 								path="/"
 								element={
-									<MainChat
+									<ChatInterface
 										messages={messages}
 										updateMessages={updateMessages}
 										handleSaveClick={handleSaveClick}
@@ -82,10 +66,7 @@ function App() {
 									/>
 								}
 							/>
-							<Route
-								path="/history"
-								element={<Conversations conversations={conversations} />}
-							/>
+							<Route path="/history" element={<Conversations conversations={conversations} />} />
 						</Routes>
 					</div>
 				</div>
