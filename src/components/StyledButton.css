@@ -1,0 +1,15 @@
+.styled-button {
+	background-color: #1976d2; /* MUI default contained primary color */
+	color: white;
+	border: none;
+	border-radius: 1rem;
+	font-size: 0.5rem;
+	margin: 1rem;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.styled-button:hover {
+	background-color: #1565c0; /* darker blue for hover */
+}

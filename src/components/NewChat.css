@@ -1,0 +1,30 @@
+.new-chat-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.new-chat-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	background-color: #1976d2; /* MUI primary.main */
+	color: white;
+	border: none;
+	border-radius: 0;
+	padding: 0.6rem 1.2rem;
+	font-size: 1rem;
+	font-style: normal;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.new-chat-button:hover {
+	background-color: #1565c0; /* Slightly darker */
+}
+
+.chat-icon,
+.edit-icon {
+	width: 20px;
+	height: 20px;
+}
