@@ -62,8 +62,12 @@ const ChatInterface = (props) => {
 								alt="avatar"
 							/>
 							<div>
-								<div className="chat-sender">{message.sender}</div>
-								<div className="chat-text">{message.text}</div>
+								<div className="chat-sender">
+									{message.sender === 'Soul AI' ? <span>Soul AI</span> : message.sender}
+								</div>
+								<div className="chat-text">
+									{message.sender === 'Soul AI' ? <p>{message.text}</p> : message.text}
+								</div>
 								<div className="chat-meta">
 									<span className="chat-time">{message.time}</span>
 									{message.sender === 'Soul AI' && hoveredIndex === index && !showRating && (
@@ -105,10 +109,10 @@ const ChatInterface = (props) => {
 					value={props.input}
 					onChange={(e) => props.updateInput(e.target.value)}
 					onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-					placeholder="Type a message..."
+					placeholder="Message Bot AI…"
 				/>
-				<button className="chat-btn" onClick={handleSend}>Ask</button>
-				<button className="chat-btn" onClick={props.handleSaveClick}>Save</button>
+				<button className="chat-btn" type="submit" onClick={handleSend}>Ask</button>
+				<button className="chat-btn" type="button" onClick={props.handleSaveClick}>Save</button>
 			</div>
 		</div>
 	);

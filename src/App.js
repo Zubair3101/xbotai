@@ -5,11 +5,24 @@ import Sidebar from "./components/Sidebar";
 import Conversations from "./components/Conversations";
 import Navbar from "./components/Navbar";
 import data from "./sampleData.json";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+
+function MainChat({ messages, updateMessages, handleSaveClick, input, updateInput, response }) {
+	return (
+		<ChatInterface
+			messages={messages}
+			updateMessages={updateMessages}
+			handleSaveClick={handleSaveClick}
+			input={input}
+			updateInput={updateInput}
+			response={response}
+		/>
+	);
+}
 
 function App() {
 	const [aiData, setAiData] = useState([]);
 	const [conversations, setConversations] = useState([]);
-	const [showPastConversations, setShowPastConversations] = useState(false);
 	const [messages, setMessages] = useState([]);
 	const [input, setInput] = useState('');
 	const [response, setResponse] = useState('');
@@ -29,7 +42,7 @@ function App() {
 	useEffect(() => {
 		let res = aiData.filter((x) => x.question.includes(input));
 		if (res.length === 0) {
-			setResponse("As a AI language model, I cannot help you out!");
+			setResponse("Sorry, Did not understand your query!");
 		} else {
 			setResponse(res[0].response);
 		}
@@ -39,45 +52,45 @@ function App() {
 		setConversations(prevConv => [...prevConv, messages]);
 	};
 
-	const updateShowPastConversations = () => {
-		setShowPastConversations(true);
-	};
-
-	const handleClickNewChat = () => {
-		setShowPastConversations(false);
-		setMessages([]);
-	};
-
 	const handleSaveClick = () => {
 		updateConversations();
 	};
 
 	return (
-		<div className="App">
-			<div className="grid-container">
-				<div className="sidebar-section">
-					<Sidebar
-						handleClickNewChat={handleClickNewChat}
-						handleClickPastConversations={updateShowPastConversations}
-					/>
-				</div>
-				<div className="main-section">
-					<Navbar />
-					{showPastConversations ? (
-						<Conversations conversations={conversations} />
-					) : (
-						<ChatInterface
-							messages={messages}
-							updateMessages={updateMessages}
-							handleSaveClick={handleSaveClick}
-							input={input}
-							updateInput={updateInput}
-							response={response}
+		<Router>
+			<div className="App">
+				<div className="grid-container">
+					<div className="sidebar-section">
+						<Sidebar
+							handleClickNewChat={() => window.location.href = '/'}
+							handleClickPastConversations={() => window.location.href = '/history'}
 						/>
-					)}
+					</div>
+					<div className="main-section">
+						<Navbar />
+						<Routes>
+							<Route
+								path="/"
+								element={
+									<MainChat
+										messages={messages}
+										updateMessages={updateMessages}
+										handleSaveClick={handleSaveClick}
+										input={input}
+										updateInput={updateInput}
+										response={response}
+									/>
+								}
+							/>
+							<Route
+								path="/history"
+								element={<Conversations conversations={conversations} />}
+							/>
+						</Routes>
+					</div>
 				</div>
 			</div>
-		</div>
+		</Router>
 	);
 }
 
